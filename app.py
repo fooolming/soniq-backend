@@ -4,8 +4,12 @@ import socket
 from datetime import datetime
 from flask import Flask, jsonify
 import mysql.connector
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+
+CORS(app)
 
 # 获取 MySQL 配置
 MYSQL_HOST = os.getenv('MYSQL_HOST', 'localhost')
