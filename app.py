@@ -12,7 +12,7 @@ app = Flask(__name__)
 CORS(app)
 
 # 获取 MySQL 配置
-MYSQL_HOST = os.getenv('MYSQL_HOST', 'localhost')
+MYSQL_HOST = os.getenv('MYSQL_HOST', 'soniq-mysqld')
 MYSQL_USER = os.getenv('MYSQL_USER', 'soniq_user')
 MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD', 'soniq_pass')
 MYSQL_DB = os.getenv('MYSQL_DB', 'soniq_db')
