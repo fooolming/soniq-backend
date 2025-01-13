@@ -5,6 +5,10 @@ from datetime import datetime
 from flask import Flask, jsonify
 import mysql.connector
 from flask_cors import CORS
+from dotenv import load_dotenv
+
+# 加载 .env 文件
+load_dotenv()
 
 
 app = Flask(__name__)
@@ -12,10 +16,10 @@ app = Flask(__name__)
 CORS(app)
 
 # 获取 MySQL 配置
-MYSQL_HOST = os.getenv('MYSQL_HOST', 'soniq-mysqld')
-MYSQL_USER = os.getenv('MYSQL_USER', 'soniq_user')
-MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD', 'soniq_pass')
-MYSQL_DB = os.getenv('MYSQL_DB', 'soniq_db')
+MYSQL_HOST = os.getenv('MYSQL_HOST')
+MYSQL_USER = os.getenv('MYSQL_USER')
+MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD')
+MYSQL_DB = os.getenv('MYSQL_DB')
 
 # 数据库连接
 def get_db_connection():
