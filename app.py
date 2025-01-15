@@ -2,7 +2,7 @@ import os
 import random
 import socket
 from datetime import datetime
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import mysql.connector
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -64,9 +64,32 @@ def daily_song():
     # 构建歌曲的 URL
     audio_url = song['file_path']
     return jsonify({
+        'song_id': song['id'],
         'title': song['title'],
         'audio_url': audio_url
     })
+
+# 获取歌词
+@app.route('/api/lyrics', methods=['GET'])
+def get_lyrics():
+    song_id = request.args.get('song_id')
+    if not song_id:
+        return jsonify({'error': 'song_id parameter is required'}), 400
+
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    try:
+        cursor.execute("SELECT lyrics FROM songs WHERE id = %s", (song_id,))
+        result = cursor.fetchone()
+        
+        if not result or not result['lyrics']:
+            return jsonify({'error': 'Lyrics not found'}), 404
+            
+        return jsonify({'lyrics': result['lyrics']})
+    finally:
+        cursor.close()
+        connection.close()
 
 # 获取主机信息
 @app.route('/api/host_info', methods=['GET'])
